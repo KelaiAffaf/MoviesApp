@@ -52,49 +52,33 @@ class AddActorFragment : Fragment() {
         var v =  inflater.inflate(R.layout.fragment_add_actor, container, false)
         var btnSave= v.findViewById<View>(R.id.save_btn) as Button
         btnSave.setOnClickListener {
+
             println("raaah lghalii raaaah")
             val first_name=add_actor_firstname.text.toString()
-                val Last_name=add_actor_lastname.text.toString()
-                val gender =add_actor_gender.text.toString()
+            val Last_name=add_actor_lastname.text.toString()
+            val gender =add_actor_gender.text.toString()
             print(first_name+Last_name+ gender)
 
-                if(first_name.isEmpty()){
-                    add_actor_firstname.error="first_name is required"
-                    add_actor_firstname.requestFocus()
-                    return@setOnClickListener
-                }
+            if(first_name.isEmpty()){
+                add_actor_firstname.error="first_name is required"
+                add_actor_firstname.requestFocus()
+                return@setOnClickListener
+            }
 
-                if(Last_name.isEmpty()){
-                    add_actor_lastname.error="Last_name is required"
-                    add_actor_lastname.requestFocus()
-                    return@setOnClickListener
-                }
+            if(Last_name.isEmpty()){
+                add_actor_lastname.error="Last_name is required"
+                add_actor_lastname.requestFocus()
+                return@setOnClickListener
+            }
 
-                if(gender.isEmpty()){
-                    add_actor_gender.error="gender is required"
-                    add_actor_gender.requestFocus()
-                    return@setOnClickListener
-                }
-            println("raaah lghalii raaaah w maweleeech w maweleeech ")
+            if(gender.isEmpty()){
+                add_actor_gender.error="gender is required"
+                add_actor_gender.requestFocus()
+                return@setOnClickListener
+            }
 
-                RetrofitService.instance.addActor("afaf","kelai","other").enqueue(object :
-                    Callback<Actor> {
-
-                    override fun onResponse(call: Call<Actor>, response: Response<Actor>) {
-                        if(response.isSuccessful){
-
-                            Toast.makeText(this@AddActorFragment.context,"Success", Toast.LENGTH_LONG).show()
-
-
-                        }else{
-                            Toast.makeText(this@AddActorFragment.context,"Failure", Toast.LENGTH_LONG).show()
-                        }
-                    }
-
-                    override fun onFailure(call: Call<Actor>, t: Throwable) {
-                        Toast.makeText(this@AddActorFragment.context,"Failure2", Toast.LENGTH_LONG).show()
-                    }
-                })
+            val actor = Actor(first_name,Last_name,gender)
+            addactor(actor)
 
            /* val intent = Intent( this.context, ListActivity::class.java)
             intent.putExtra("from", "actor")
@@ -124,6 +108,44 @@ class AddActorFragment : Fragment() {
         super.onDetach()
         listener = null
     }
+
+
+    fun addactor(actor1:Actor){
+
+        println("la fonction add actor")
+
+        RetrofitService.instance.addActor(actor1.firstname,actor1.lastname,actor1.gender).enqueue(object :
+            Callback<Actor> {
+
+            override fun onResponse(call: Call<Actor>, response: Response<Actor>) {
+                if(response.isSuccessful){
+
+                    Toast.makeText(this@AddActorFragment.context,"Success", Toast.LENGTH_LONG).show()
+
+
+                }else{
+                    Toast.makeText(this@AddActorFragment.context,"Failure", Toast.LENGTH_LONG).show()
+                    System.out.println("error message "+ response.message())
+                    System.out.println("error cause "+ response.errorBody().toString())
+
+                }
+            }
+
+            override fun onFailure(call: Call<Actor>, t: Throwable) {
+                Toast.makeText(this@AddActorFragment.context,t.message  , Toast.LENGTH_LONG).show()
+                System.out.println("error message "+ t.message)
+                System.out.println("error cause "+ t.cause.toString())
+                System.out.println("error localize"+ t.localizedMessage)
+            }
+        })
+
+
+    }
+
+
+
+
+
 
     /**
      * This interface must be implemented by activities that contain this

@@ -1,9 +1,12 @@
+
 package com.example.tp7
 
-data class Actor (val id:Int,val firstname:String ,val lastname:String,val gender:String) {
-    val error: Boolean
-        get() {
-            TODO()
-        }
+import com.google.gson.annotations.SerializedName
 
-}
+
+
+data class  Actor (
+
+     @SerializedName("firstname") val firstname:String ,
+     @SerializedName("lastname") val lastname:String,
+     @SerializedName("gender")val gender:String)

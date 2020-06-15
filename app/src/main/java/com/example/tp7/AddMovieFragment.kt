@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
+import com.example.tp7.RetrofitService.retrofit
 import kotlinx.android.synthetic.main.fragment_add_movie.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -92,6 +93,26 @@ class AddMovieFragment : Fragment() {
                         Toast.makeText(this@AddMovieFragment.context,"Failure", Toast.LENGTH_LONG).show()
                     }
                 })
+
+
+            //////////////////////////////////////////////////////////////////////////////////////////
+
+            val service = retrofit.create(Endpoint::class.java)
+            val movieRequest = service.listMovie()
+            movieRequest.enqueue(object : Callback<List<Movie>> {
+                override fun onResponse(call: Call<List<Movie>>, response: Response<List<Movie>>) {
+                    val allMovies = response.body()
+                    if (allMovies != null) {
+                        print("HERE is ALL Movies FROM Movies Database:")
+                        for (m in allMovies)
+                            print(" one course : ${m.id}: ${m.name} : ${m.year} : ${m.language}")
+                    }
+                }
+                override fun onFailure(call: Call<List<Movie>>, t: Throwable) {
+                    error("KO")
+                }
+            })
+
 
 
             val intent = Intent( this.context, ListActivity::class.java)
