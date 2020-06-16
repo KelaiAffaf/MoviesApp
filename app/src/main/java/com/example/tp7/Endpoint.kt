@@ -30,11 +30,8 @@ interface Endpoint {
         @Field("language") language:String
     ):Call<Movie>
 
-    @GET ("/Movie")
-    fun listMovie():Call<List<Movie>>
+    //@GET ("/Movie")
+  //  fun listMovie():Call<List<Movie>>
 
-    
-    
-    @POST("addmovie")
-    fun addMovie(@Body movie: Movie):Call<String>
+
 }

@@ -177,4 +177,34 @@ class AddMovieFragment : Fragment() {
                 }
             }
     }
+
+
+    fun addMovie(movie1:Movie){
+
+        println("la fonction add movie")
+
+        RetrofitService.instance.addmovie(movie1.name,movie1.year,movie1.language).enqueue(object : Callback<Movie> {
+
+            override fun onResponse(call: Call<Movie>, response: Response<Movie>) {
+                if(response.isSuccessful){
+
+                    Toast.makeText(this@AddMovieFragment.context,"Success", Toast.LENGTH_LONG).show()
+
+
+                }else{
+                    Toast.makeText(this@AddMovieFragment.context,"Failure", Toast.LENGTH_LONG).show()
+                   // System.out.println("error message "+ response.message())
+                    //System.out.println("error cause "+ response.errorBody().toString())
+
+                }
+            }
+
+            override fun onFailure(call: Call<Movie>, t: Throwable) {
+                Toast.makeText(this@AddMovieFragment.context,t.message  , Toast.LENGTH_LONG).show()
+
+            }
+        })
+
+
+    }
 }
