@@ -12,7 +12,7 @@ object RetrofitService {
 
     //private val AUTH = "Basic "+ Base64.encodeToString("root:123456".toByteArray(), Base64.NO_WRAP)
 
-    private const val BASE_URL = "https://9b164977834c.ngrok.io"
+    private const val BASE_URL = "https://3478955d8a89.ngrok.io"
 
     private val okHttpClient = OkHttpClient.Builder().build()
 
@@ -28,7 +28,7 @@ object RetrofitService {
     }
 
     val retrofit = Retrofit.Builder()
-        .baseUrl("https://9b164977834c.ngrok.io")
+        .baseUrl("https://3478955d8a89.ngrok.io")
         .addConverterFactory(MoshiConverterFactory.create())
         .build()
 

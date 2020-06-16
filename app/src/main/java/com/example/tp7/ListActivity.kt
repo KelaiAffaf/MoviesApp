@@ -15,23 +15,24 @@ import retrofit2.Response
 
 class ListActivity : AppCompatActivity() {
     var actorList = ArrayList<Actor>()
+    var recyclerView:RecyclerView ?=null
+    var from:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_list)
       //  actorList=getActors()
-        var from = intent.getStringExtra("from")
-        actorList= getActors()
-        System.out.println("actoreList"+actorList.toString())
-        var recyclerView = findViewById(R.id.recyclerView) as RecyclerView
+        from = intent.getStringExtra("from")
 
-        recyclerView.apply {
+         recyclerView = findViewById(R.id.recyclerView) as RecyclerView
+
+        recyclerView?.apply {
             layoutManager = LinearLayoutManager(this@ListActivity)
-            when (from) {
-                "actor" -> adapter = ActorAdapter(this@ListActivity, actorList)
-                "movie" -> adapter = AppAdapter(this@ListActivity, loadData())
-            }
-        }
 
+        }
+        when (from) {
+            "actor" -> getActors()
+            "movie" -> getMovies()
+        }
         add_btn.setOnClickListener {
             val intent = Intent( this, movie_Form::class.java)
             intent.putExtra("from", from)
@@ -42,17 +43,17 @@ class ListActivity : AppCompatActivity() {
 
     fun loadData():List<Movie> {
         val data = mutableListOf<Movie>()
-        data.add(Movie(1,"1","b","c"))
-        data.add(Movie(2,"1","b","c"))
-        data.add(Movie(3,"1","b","c"))
-        data.add(Movie(4,"1","b","c"))
+        data.add(Movie("1","b","c"))
+        data.add(Movie("1","b","c"))
+        data.add(Movie("1","b","c"))
+        data.add(Movie("1","b","c"))
 
 
         return data
     }
 
 
-    fun getActors():ArrayList<Actor> {
+    fun getActors() {
         val call = RetrofitService.instance.getActor()
         var list=ArrayList<Actor>()
         call.enqueue(object : Callback<List<Actor>> {
@@ -61,26 +62,27 @@ class ListActivity : AppCompatActivity() {
 
             }
 
-            override fun onResponse(call: Call<List<Actor>>, response: Response<List<Actor>>) =
+            override fun onResponse(call: Call<List<Actor>>, response: Response<List<Actor>>) {
                 if (response.isSuccessful) {
                     list = response.body()!! as ArrayList<Actor>
-                 /*   for (item in list!!) {
-                        Toast.makeText(this@ListActivity, item.firstname, Toast.LENGTH_LONG).show()
-                    }*/System.out.println("Get Actors "+ list.toString())
+                    recyclerView?.apply {
+                        adapter = ActorAdapter(this@ListActivity, list)
+                    }
+
 
                 } else {
                     Toast.makeText(this@ListActivity, "erreur2", Toast.LENGTH_LONG).show()
-                    System.out.println("error message "+ response.message())
-                    System.out.println("error cause "+ response.errorBody().toString())
+                    System.out.println("error message " + response.message())
+                    System.out.println("error cause " + response.errorBody().toString())
                 }
 
+            }
         })
 
-       return list
 
     }
 
-    fun getMovies():ArrayList<Movie> {
+    fun getMovies() {
         val call = RetrofitService.instance.getMovie()
         var listmovies=ArrayList<Movie>()
         call.enqueue(object : Callback<List<Movie>> {
@@ -89,38 +91,29 @@ class ListActivity : AppCompatActivity() {
 
             }
 
-            override fun onResponse(call: Call<List<Movie>>, response: Response<List<Movie>>) =
+            override fun onResponse(call: Call<List<Movie>>, response: Response<List<Movie>>) {
                 if (response.isSuccessful) {
                     listmovies = response.body()!! as ArrayList<Movie>
-                    /*   for (item in list!!) {
-                           Toast.makeText(this@ListActivity, item.firstname, Toast.LENGTH_LONG).show()
-                       }*/System.out.println("Get Actors "+ list.toString())
+
+                    recyclerView?.apply {
+                        adapter = MovieAdapter(this@ListActivity, listmovies)
+                    }
 
                 } else {
                     Toast.makeText(this@ListActivity, "erreur2", Toast.LENGTH_LONG).show()
-                    System.out.println("error message "+ response.message())
-                    System.out.println("error cause "+ response.errorBody().toString())
+                    System.out.println("error message " + response.message())
+                    System.out.println("error cause " + response.errorBody().toString())
                 }
+            }
 
         })
 
-        return listmovies
+
 
     }
 
 
 
-    inner class AsynTsk:AsyncTask<Int,Int,Void>(){
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-           // listener.onTaskCompleted();
-        }
-
-        override fun doInBackground(vararg params: Int?): Void {
-            TODO("Not yet implemented")
-        }
-    }
 
 
 }

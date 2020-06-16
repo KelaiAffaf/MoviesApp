@@ -53,7 +53,7 @@ class AddActorFragment : Fragment() {
         var btnSave= v.findViewById<View>(R.id.save_btn) as Button
         btnSave.setOnClickListener {
 
-            println("raaah lghalii raaaah")
+
             val first_name=add_actor_firstname.text.toString()
             val Last_name=add_actor_lastname.text.toString()
             val gender =add_actor_gender.text.toString()
@@ -80,10 +80,10 @@ class AddActorFragment : Fragment() {
             val actor = Actor(first_name,Last_name,gender)
             addactor(actor)
 
-           /* val intent = Intent( this.context, ListActivity::class.java)
+           val intent = Intent( this.context, ListActivity::class.java)
             intent.putExtra("from", "actor")
-            this.startActivity(intent)*/
-            print("apres l val intent li rahi commentaire ")
+            this.startActivity(intent)
+
 
         }
         return v

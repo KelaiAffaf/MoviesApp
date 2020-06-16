@@ -22,31 +22,14 @@ class MovieAdapter(var context: Context, var data:List<Movie>): RecyclerView.Ada
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.title.text = data[position].name
-        holder.year.text = data[position].year.toString()
+        holder.year.text = data[position].year
+        holder.language.text=data[position].language
 
 
 
     }
 
-    fun getmovie(namemovie: String) {
-        val call = RetrofitService.instance.getMovie()
-        call.enqueue(object : Callback<List<Movie>> {
-            override fun onFailure(call: Call<List<Movie>>, t: Throwable) {
-                Toast.makeText(context, "erreur", Toast.LENGTH_LONG).show()
 
-            }
-
-            override fun onResponse(call: Call<List<Movie>>, response: Response<List<Movie>>) =
-                if (response.isSuccessful) {
-                    val list = response.body()
-                    for (item in list!!) {
-                        Toast.makeText(context, item.name, Toast.LENGTH_LONG).show()
-                    }
-                } else {
-                    Toast.makeText(context, "erreur2", Toast.LENGTH_LONG).show()
-                }
-
-        })
     }
 
 
@@ -55,7 +38,7 @@ class MovieAdapter(var context: Context, var data:List<Movie>): RecyclerView.Ada
 
 
 
-}
+
 
 
 

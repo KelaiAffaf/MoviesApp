@@ -10,7 +10,7 @@ class ActorAdapter(var context: ListActivity, var data:List<Actor>): RecyclerVie
         parent: ViewGroup,
         viewType: Int
     ): com.example.tp7.ActorViewHolder {
-        return ActorViewHolder(LayoutInflater.from(context).inflate(R.layout.item_movie, parent, false))
+        return ActorViewHolder(LayoutInflater.from(context).inflate(R.layout.item_actor, parent, false))
     }
 
     override fun getItemCount()= data.size
