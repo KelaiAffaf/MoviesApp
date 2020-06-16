@@ -14,7 +14,7 @@ import retrofit2.Response
 
 
 class ListActivity : AppCompatActivity() {
-    var actorList = ArrayList<Actor>()
+
     var recyclerView:RecyclerView ?=null
     var from:String?=null
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,16 +41,7 @@ class ListActivity : AppCompatActivity() {
 
     }
 
-    fun loadData():List<Movie> {
-        val data = mutableListOf<Movie>()
-        data.add(Movie("1","b","c"))
-        data.add(Movie("1","b","c"))
-        data.add(Movie("1","b","c"))
-        data.add(Movie("1","b","c"))
 
-
-        return data
-    }
 
 
     fun getActors() {
@@ -72,8 +63,7 @@ class ListActivity : AppCompatActivity() {
 
                 } else {
                     Toast.makeText(this@ListActivity, "erreur2", Toast.LENGTH_LONG).show()
-                    System.out.println("error message " + response.message())
-                    System.out.println("error cause " + response.errorBody().toString())
+
                 }
 
             }
@@ -101,8 +91,7 @@ class ListActivity : AppCompatActivity() {
 
                 } else {
                     Toast.makeText(this@ListActivity, "erreur2", Toast.LENGTH_LONG).show()
-                    System.out.println("error message " + response.message())
-                    System.out.println("error cause " + response.errorBody().toString())
+
                 }
             }
 

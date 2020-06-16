@@ -125,17 +125,14 @@ class AddActorFragment : Fragment() {
 
                 }else{
                     Toast.makeText(this@AddActorFragment.context,"Failure", Toast.LENGTH_LONG).show()
-                    System.out.println("error message "+ response.message())
-                    System.out.println("error cause "+ response.errorBody().toString())
+
 
                 }
             }
 
             override fun onFailure(call: Call<Actor>, t: Throwable) {
                 Toast.makeText(this@AddActorFragment.context,t.message  , Toast.LENGTH_LONG).show()
-                System.out.println("error message "+ t.message)
-                System.out.println("error cause "+ t.cause.toString())
-                System.out.println("error localize"+ t.localizedMessage)
+
             }
         })
 
