@@ -80,6 +80,35 @@ class ListActivity : AppCompatActivity() {
 
     }
 
+    fun getMovies():ArrayList<Movie> {
+        val call = RetrofitService.instance.getMovie()
+        var listmovies=ArrayList<Movie>()
+        call.enqueue(object : Callback<List<Movie>> {
+            override fun onFailure(call: Call<List<Movie>>, t: Throwable) {
+                Toast.makeText(this@ListActivity, "erreur", Toast.LENGTH_LONG).show()
+
+            }
+
+            override fun onResponse(call: Call<List<Movie>>, response: Response<List<Movie>>) =
+                if (response.isSuccessful) {
+                    listmovies = response.body()!! as ArrayList<Movie>
+                    /*   for (item in list!!) {
+                           Toast.makeText(this@ListActivity, item.firstname, Toast.LENGTH_LONG).show()
+                       }*/System.out.println("Get Actors "+ list.toString())
+
+                } else {
+                    Toast.makeText(this@ListActivity, "erreur2", Toast.LENGTH_LONG).show()
+                    System.out.println("error message "+ response.message())
+                    System.out.println("error cause "+ response.errorBody().toString())
+                }
+
+        })
+
+        return listmovies
+
+    }
+
+
 
     inner class AsynTsk:AsyncTask<Int,Int,Void>(){
 
